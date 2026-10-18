@@ -155,6 +155,19 @@ public:
         return result;
     }
 
+    T Evaluate(const T& x) const {
+        T result = T();
+        T power = T(1);
+
+        for (std::size_t i = 0; i < size_; ++i) {
+            result += data_[i] * power;
+            power *= x;
+        }
+
+        return result;
+    }
+
+
 private:
     T* data_;
     std::size_t size_;
@@ -167,4 +180,25 @@ private:
 template <typename T>
 Polynomial<T> operator*(const T& scalar, const Polynomial<T>& polynomial) {
     return polynomial * scalar;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Polynomial<T>& polynomial) {
+    for (std::size_t i = 0; i < polynomial.Size(); ++i) {
+        if (i > 0) {
+            out << " + ";
+        }
+
+        out << polynomial[i];
+
+        if (i > 0) {
+            out << "*x";
+        }
+
+        if (i > 1) {
+            out << '^' << i;
+        }
+    }
+
+    return out;
 }
