@@ -35,6 +35,8 @@ public:
         }
     }
 
+    std::size_t Size() const { return size_; }
+    
     Polynomial& operator=(const Polynomial& other) {
         if (this == &other) {
             return *this;
@@ -49,13 +51,65 @@ public:
         return *this;
     }
 
+    void Expand(std::size_t max_degree) {
+        if (max_degree < size_) {
+            return;
+        }
+        T* new_data = new T[max_degree + 1]();
+        for (std::size_t i = 0; i < size_; ++i) {
+            new_data[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = new_data;
+        size_ = max_degree + 1;
+    }
 
+    T operator[](std::size_t degree) const {
+        if (degree >= size_) {
+            return T();
+        }
+        return data_[degree];
+    }
 
+    void Set(std::size_t degree, const T& value) {
+        Expand(degree);
+        data_[degree] = value;
+    }
 
+    void ShrinkToFit() {
+        std::size_t new_size = size_;
+        while (new_size > 1 && IsZero(data_[new_size - 1])) {
+            --new_size;
+        }
+        if (new_size == size_) {
+            return;
+        }
+        T* new_data = new T[new_size];
+        for (std::size_t i = 0; i < new_size; ++i) {
+            new_data[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = new_data;
+        size_ = new_size;
+    }
 
-    std::size_t Size() const { return size_; }
+    bool operator==(const Polynomial& other) const {
+        std::size_t max_size = size_ > other.size_ ? size_ : other.size_;
+        for (std::size_t i = 0; i < max_size; ++i) {
+            if (!IsZero((*this)[i] - other[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool operator!=(const Polynomial& other) const { return !(*this == other); }
 
 private:
     T* data_;
     std::size_t size_;
+
+    static bool IsZero(const T& value) {
+        return static_cast<double>(std::abs(value)) <= kEpsilon;
+    }
 };
