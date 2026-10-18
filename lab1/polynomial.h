@@ -4,6 +4,7 @@
 #include <ostream>
 #include <cstddef>
 #include <stdexcept>
+#include <cmath>
 
 template <typename T>
 class Polynomial {
@@ -36,7 +37,7 @@ public:
     }
 
     std::size_t Size() const { return size_; }
-    
+
     Polynomial& operator=(const Polynomial& other) {
         if (this == &other) {
             return *this;
@@ -104,6 +105,40 @@ public:
     }
 
     bool operator!=(const Polynomial& other) const { return !(*this == other); }
+
+    Polynomial& operator+=(const Polynomial& other) {
+        if (other.size_ > size_) {
+            Expand(other.size_ - 1);
+        }
+
+        for (std::size_t i = 0; i < other.size_; ++i) {
+            data_[i] += other.data_[i];
+        }
+
+        return *this;
+    }
+
+    Polynomial& operator-=(const Polynomial& other) {
+        if (other.size_ > size_) {
+            Expand(other.size_ - 1);
+        }
+        for (std::size_t i = 0; i < other.size_; ++i) {
+            data_[i] -= other.data_[i];
+        }
+        return *this;
+    }
+
+    Polynomial operator+(const Polynomial& other) const {
+        Polynomial result(*this);
+        result += other;
+        return result;
+    }
+
+    Polynomial operator-(const Polynomial& other) const {
+        Polynomial result(*this);
+        result -= other;
+        return result;
+    }
 
 private:
     T* data_;
