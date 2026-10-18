@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <cmath>
+#include <complex>
 
 template <typename T>
 class Polynomial {
@@ -53,9 +54,10 @@ public:
     }
 
     void Expand(std::size_t max_degree) {
-        if (max_degree < size_) {
+        if (max_degree < size_ - 1) {
             return;
         }
+
         T* new_data = new T[max_degree + 1]();
         for (std::size_t i = 0; i < size_; ++i) {
             new_data[i] = data_[i];
@@ -128,6 +130,13 @@ public:
         return *this;
     }
 
+    Polynomial& operator*=(const T& scalar) {
+        for (std::size_t i = 0; i < size_; ++i) {
+            data_[i] *= scalar;
+        }
+        return *this;
+    }
+
     Polynomial operator+(const Polynomial& other) const {
         Polynomial result(*this);
         result += other;
@@ -140,6 +149,12 @@ public:
         return result;
     }
 
+    Polynomial operator*(const T& scalar) const {
+        Polynomial result(*this);
+        result *= scalar;
+        return result;
+    }
+
 private:
     T* data_;
     std::size_t size_;
@@ -148,3 +163,8 @@ private:
         return static_cast<double>(std::abs(value)) <= kEpsilon;
     }
 };
+
+template <typename T>
+Polynomial<T> operator*(const T& scalar, const Polynomial<T>& polynomial) {
+    return polynomial * scalar;
+}
