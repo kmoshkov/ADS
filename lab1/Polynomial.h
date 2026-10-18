@@ -205,7 +205,7 @@ std::ostream& operator<<(std::ostream& out, const Polynomial<T>& polynomial) {
 
 template <typename T>
 std::pair<double, double> FindExtremum(Polynomial<T> polynomial) {
-    
+
     polynomial.ShrinkToFit();
 
     if (polynomial.Size() != 3) {
