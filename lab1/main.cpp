@@ -17,9 +17,7 @@ Polynomial<T> GenerateRandomPolynomial(std::size_t max_degree) {
     }
 
     while (polynomial[max_degree] == T{}) {
-        polynomial.Set(
-            max_degree,
-            static_cast<T>(distr(gen))
+        polynomial.Set(max_degree, static_cast<T>(distr(gen))
         );
     }
 
