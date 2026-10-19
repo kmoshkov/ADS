@@ -28,45 +28,35 @@ Polynomial<T> GenerateRandomPolynomial(std::size_t max_degree) {
 
 int main() {
     try {
-        Polynomial<int> pInt(2);
-        pInt.Set(0, 1);
-        pInt.Set(1, -4);
-        pInt.Set(2, 2);
+        Polynomial<int> p_int(2);
+        p_int.Set(0, 1);
+        p_int.Set(1, -4);
+        p_int.Set(2, 2);
 
-        auto resultInt = FindExtremum(pInt);
-        std::cout << "int: " << resultInt.first << ", "
-                  << resultInt.second << '\n';
+        Point result_int = FindExtremum(p_int);
+        std::cout << "int: " << result_int.x << ", "
+                  << result_int.y << '\n';
 
-        Polynomial<float> pFloat(2);
-        pFloat.Set(0, 1.0f);
-        pFloat.Set(1, -4.0f);
-        pFloat.Set(2, 2.0f);
+        Polynomial<float> p_float(2);
+        p_float.Set(0, 1.0f);
+        p_float.Set(1, -4.0f);
+        p_float.Set(2, 2.0f);
 
-        auto resultFloat = FindExtremum(pFloat);
-        std::cout << "float: " << resultFloat.first << ", "
-                  << resultFloat.second << '\n';
+        Point result_float = FindExtremum(p_float);
+        std::cout << "float: " << result_float.x << ", "
+                  << result_float.y << '\n';
 
-        Polynomial<double> pDouble(2);
-        pDouble.Set(0, 1.0);
-        pDouble.Set(1, -4.0);
-        pDouble.Set(2, 2.0);
+        Polynomial<double> p_double(2);
+        p_double.Set(0, 1.0);
+        p_double.Set(1, -4.0);
+        p_double.Set(2, 2.0);
 
-        auto resultDouble = FindExtremum(pDouble);
-        std::cout << "double: " << resultDouble.first << ", "
-                  << resultDouble.second << '\n';
-
-        Polynomial<std::complex<float>> pComplexFloat(2);
-        pComplexFloat.Set(0, {1.0f, 2.0f});
-        pComplexFloat.Set(1, {-4.0f, 1.0f});
-        pComplexFloat.Set(2, {2.0f, 0.0f});
-
-        Polynomial<std::complex<double>> pComplexDouble(2);
-        pComplexDouble.Set(0, {1.0, 2.0});
-        pComplexDouble.Set(1, {-4.0, 1.0});
-        pComplexDouble.Set(2, {2.0, 0.0});
+        Point result_double = FindExtremum(p_double);
+        std::cout << "double: " << result_double.x << ", "
+                  << result_double.y << '\n';
 
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << '\n';
+        std::cout << "Error: " << e.what() << '\n';
         return 1;
     }
 

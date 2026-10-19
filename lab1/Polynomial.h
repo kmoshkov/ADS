@@ -7,6 +7,11 @@
 #include <cmath>
 #include <complex>
 
+struct Point {
+    double x;
+    double y;
+};
+
 template <typename T>
 class Polynomial {
 public:
@@ -204,8 +209,7 @@ std::ostream& operator<<(std::ostream& out, const Polynomial<T>& polynomial) {
 }
 
 template <typename T>
-std::pair<double, double> FindExtremum(Polynomial<T> polynomial) {
-
+Point FindExtremum(Polynomial<T> polynomial) {
     polynomial.ShrinkToFit();
 
     if (polynomial.Size() != 3) {
@@ -215,10 +219,6 @@ std::pair<double, double> FindExtremum(Polynomial<T> polynomial) {
     const double c = static_cast<double>(polynomial[0]);
     const double b = static_cast<double>(polynomial[1]);
     const double a = static_cast<double>(polynomial[2]);
-
-    if (std::abs(a) <= 1e-9) {
-        throw std::invalid_argument("Polynomial is not quadratic");
-    }
 
     const double x = -b / (2.0 * a);
     const double y = (a * x + b) * x + c;
